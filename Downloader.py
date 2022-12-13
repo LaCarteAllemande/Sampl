@@ -1,8 +1,17 @@
 import pafy
 from tkinter import messagebox
+
+
 import requests
 import Data
 import os
+
+from pydub import AudioSegment
+
+import DownloadWindow
+
+
+
 
 #check if the url is correct
 def CheckLink(link):
@@ -13,7 +22,6 @@ def CheckLink(link):
         return False
 
 def Download(link, path):
-
     if (CheckLink(link)):
         if (Data.CheckPath(path)):
             YtDownload(link, path)
@@ -23,7 +31,33 @@ def Download(link, path):
         messagebox.showinfo("Invalid url", "Invalid url")
 
 def YtDownload(url, path):
-    os.chdir(path)
+    global dlWindow
     video = pafy.new(url)
     bestaudio = video.getbestaudio()
-    bestaudio.download()
+    
+    dlWindow = DownloadWindow.DownloadWindow(bestaudio.title)
+    bestaudio.download(path, quiet=True,  callback=UpdateDownload)
+    
+    #ConvertToMp3(bestaudio.filename, bestaudio.extension,bestaudio.title)
+
+
+def UpdateDownload(total, recvd, ratio, rate, eta):
+
+    if (dlWindow is not None):
+        print(ratio)
+        dlWindow.updateRatio(rate)
+    #messagebox.showinfo("Invalid path", (round(ratio, 2)))
+
+
+def ConvertToMp3(audioFile, extension, name):
+    #print(audioFile, "\n", extension, name)
+
+
+    # audio = AudioSegment.from_file("./" + audioFile, format=extension)
+    
+    # audio.export(name+".mp3", format="mp3")
+    print(os.getcwd())
+    audio = AudioSegment.from_file("a.mp3", format="mp3")
+    
+    audio.export("b.mp3", format="mp3")
+

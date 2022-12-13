@@ -7,11 +7,11 @@ DATA_PATH = DATA_FOLDER + DATE_FILE
 
 #create a data file to store the samples' path
 def CreateDataPath():
-    print("hello")
     if not (os.path.exists(DATA_FOLDER)):
         os.makedirs(DATA_FOLDER)
     if not (os.path.exists(DATA_PATH)):
-        open(DATA_PATH, 'w')
+        data = open(DATA_PATH, 'w')
+        data.write(os.getcwd())
 
 #check if the path is correct
 def CheckPath(path):
@@ -19,7 +19,7 @@ def CheckPath(path):
         return False
     return True
 
-#save teh path into a text file
+#save the path into a text file
 def SavePath(path):
     try:
         f = open(DATA_PATH, "w")

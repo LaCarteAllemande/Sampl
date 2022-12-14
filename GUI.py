@@ -1,6 +1,3 @@
-
-
-
 import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
@@ -8,12 +5,15 @@ from tkinter.filedialog import askdirectory
 
 import Data
 import Downloader
+import DownloadWindow
+import threading
 
 
 class Sampl:
 
     def __init__(self):
         self.url ="" 
+        self.downloadWindows = []
         self.path = "" 
         self.path = Data.GetSamplePath() #why do I need to declare path a second time ??
         self.createRootWindow()
@@ -46,7 +46,7 @@ class Sampl:
         self.pathLabel = tk.Label(self.root, text="Samples directory :" + self.path , font=("Arial Nova", 10))
         self.urlEntry = Entry(self.root)
         self.urlEntry.focus()
-        self.downloadButton= Button(self.root,text="Download",command= self.dwl)
+        self.downloadButton= Button(self.root,text="Download",command= self.download)
     
     #display the GUI's components
     def showGUIcomponents(self):
@@ -55,8 +55,21 @@ class Sampl:
         self.urlEntry.place(relx=0.5, rely=0.5, relwidth=0.7, relheight=0.1, anchor=CENTER)
         self.downloadButton.place(relx=0.5, rely=0.7, relwidth=0.2, relheight=0.1, anchor=CENTER)
 
-    #starts the download
-    def dwl(self):
-        Downloader.Download(self.urlEntry.get(), self.path)
+
+    def download(self):
+        if (Downloader.CheckLink(self.urlEntry.get())):
+            if (Data.CheckPath(self.path)):
+                self.newDownloadThreat()
+            else:
+                messagebox.showinfo("Invalid path", "Invalid download path")
+        else:
+            messagebox.showinfo("Invalid url", "Invalid url")
+
+    #starts a new download thread
+    def newDownloadThreat(self):
+            self.downloadWindows.append(DownloadWindow.DownloadWindow(self.root, self.path, self.urlEntry.get()))
+            parallel = threading.Thread(target=self.downloadWindows[-1].download, args=(self.urlEntry.get(), self.path))
+            parallel.start()
+
     def __del__(self):
         Data.SavePath(self.path)

@@ -8,6 +8,8 @@ class DownloadWindow(tk.Toplevel):
         self.titleLabel =""
         self.ratioLabel = ""
         self.downloader =""
+        self.url = url
+        self.path = path
 
         self.title("Download started")
         self.iconbitmap('./assets/logo.ico')
@@ -23,6 +25,9 @@ class DownloadWindow(tk.Toplevel):
 
         self.titleLabel.place(relx=0.5, rely=0.5, anchor=tk.constants.CENTER)
         self.ratioLabel.place(relx=0.5, rely=0.6, anchor=tk.constants.CENTER)
+
+    def convert(self):
+        Downloader.ConvertToMp3(self.path , self.downloader.getFilename(), "m4a" )
 
     def download(self, url :str, path :str):
         self.downloader.ytDownload(url, path, self)

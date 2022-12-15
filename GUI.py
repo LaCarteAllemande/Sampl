@@ -10,7 +10,6 @@ import threading
 
 
 class Sampl:
-
     def __init__(self):
         self.url ="" 
         self.downloadWindows = []
@@ -67,9 +66,9 @@ class Sampl:
 
     #starts a new download thread
     def newDownloadThreat(self):
-            self.downloadWindows.append(DownloadWindow.DownloadWindow(self.root, self.path, self.urlEntry.get()))
-            parallel = threading.Thread(target=self.downloadWindows[-1].download, args=(self.urlEntry.get(), self.path))
-            parallel.start()
+        self.downloadWindows.append(DownloadWindow.DownloadWindow(self.root, self.path, self.urlEntry.get()))
+        parallel = threading.Thread(target=self.downloadWindows[-1].download, args=(self.urlEntry.get(), self.path))
+        parallel.start()
 
     def __del__(self):
         Data.SavePath(self.path)

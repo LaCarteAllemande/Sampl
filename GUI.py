@@ -58,6 +58,8 @@ class Sampl:
     def download(self):
         if (Downloader.CheckLink(self.urlEntry.get())):
             if (Data.CheckPath(self.path)):
+                self.urlEntry.delete(0,END)
+                self.urlEntry.insert(0, "")
                 self.newDownloadThreat()
             else:
                 messagebox.showinfo("Invalid path", "Invalid download path")

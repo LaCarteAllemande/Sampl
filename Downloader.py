@@ -18,18 +18,18 @@ class Downloader:
         self.extension = bestaudio.extension
         bestaudio.download(filepath=path, quiet=True, callback=self.updateDownload)
         self.window.convert()
-        #self.window.destroy()
+
 
     def updateDownload(self, total, recvd, ratio, rate, eta):   
         self.window.updateRatio(ratio)
         if (ratio == 1.0):
             time.sleep(2) 
-            
-            #self.window.destroy()
-        #messagebox.showinfo("Invalid path", (round(ratio, 2)))
     
     def getTitle(self, url :str):
         return pafy.new(url).title
+    
+    def getAuthor(self, url :str):
+        return pafy.new(url).author
 
     def getFilename(self):
         return self.file
@@ -42,12 +42,11 @@ def CheckLink(link):
     except:
         return False
 
-def ConvertToMp3(path :str, audioFile:str, extension:str):
-        #print(audioFile, "\n", extension, name)
-        # audio = AudioSegment.from_file("./" + audioFile, format=extension)
-        
-        # audio.export(name+".mp3", format="mp3")
+def ConvertToMp3(path :str, audioFile:str, extension:str, name:str):
+
+    actualPath = os.getcwd()
     os.chdir(path)
-    print(audioFile)
     audio = AudioSegment.from_file(audioFile)
-    audio.export("b.mp3", format="mp3")
+    audio.export(name + ".mp3", format="mp3")
+    os.remove(audioFile) 
+    os.chdir(actualPath)

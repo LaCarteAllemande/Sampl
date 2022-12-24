@@ -38,14 +38,16 @@ class DownloadWindow(tk.Toplevel):
         #print(self.titleSample.replace("(Official Music Video)", ""))
         title = videoTitle.replace("(Official Music Video)", "")
         
-        
         if not (author in title):
             title = title + " - " + author
 
         return title
+    
     def download(self, url :str, path :str):
-        self.downloader.ytDownload(url, path, self)
-
+        try:
+            self.downloader.ytDownload(url, path, self)
+        except:
+            messagebox.option('Download error', "Error while downloading " + self.titleSample + ", maybe try again ?")
 
     def updateRatio(self, ratio):
         self.ratioLabel.config(text = "Download :"+  str(round(ratio * 100, 2)) + "%")

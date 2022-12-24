@@ -18,6 +18,7 @@ class Downloader:
         self.extension = bestaudio.extension
         bestaudio.download(filepath=path, quiet=True, callback=self.updateDownload)
         self.window.convert()
+        self.window.destroy()
 
 
     def updateDownload(self, total, recvd, ratio, rate, eta):   

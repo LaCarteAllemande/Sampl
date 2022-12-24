@@ -58,9 +58,10 @@ class Sampl:
     def download(self):
         if (Downloader.CheckLink(self.urlEntry.get())):
             if (Data.CheckPath(self.path)):
-                self.urlEntry.delete(0,END)
-                self.urlEntry.insert(0, "")
+                #self.urlEntry.delete(0,END)
+                #self.urlEntry.insert(0, "")
                 self.newDownloadThreat()
+                
             else:
                 messagebox.showinfo("Invalid path", "Invalid download path")
         else:
@@ -71,6 +72,7 @@ class Sampl:
         self.downloadWindows.append(DownloadWindow.DownloadWindow(self.root, self.path, self.urlEntry.get()))
         parallel = threading.Thread(target=self.downloadWindows[-1].download, args=(self.urlEntry.get(), self.path))
         parallel.start()
+        self.urlEntry.delete(0,END)
 
     def __del__(self):
         Data.SavePath(self.path)

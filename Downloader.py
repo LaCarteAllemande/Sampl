@@ -24,6 +24,7 @@ class Downloader:
         self.window.updateRatio(ratio)
         if (ratio == 1.0):
             time.sleep(2) 
+            
     
     def getTitle(self, url :str):
         return pafy.new(url).title
@@ -34,6 +35,14 @@ class Downloader:
     def getFilename(self):
         return self.file
 
+    def convertToMp3(self, path :str, audioFile:str, extension:str):
+        actualPath = os.getcwd()
+        os.chdir(path)
+        audio = AudioSegment.from_file(audioFile)
+        audio.export(self.window.getSampleName() + ".mp3", format="mp3")
+        os.remove(audioFile) 
+        os.chdir(actualPath)
+
 #check if the url is correct
 def CheckLink(link):
     try:
@@ -42,11 +51,3 @@ def CheckLink(link):
     except:
         return False
 
-def ConvertToMp3(path :str, audioFile:str, extension:str, name:str):
-
-    actualPath = os.getcwd()
-    os.chdir(path)
-    audio = AudioSegment.from_file(audioFile)
-    audio.export(name + ".mp3", format="mp3")
-    os.remove(audioFile) 
-    os.chdir(actualPath)

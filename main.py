@@ -6,6 +6,7 @@ import ffmpeg
 
 def main ():
     app = GUI.Sampl()
+    
 
     try:
         from ctypes import windll

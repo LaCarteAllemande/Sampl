@@ -1,12 +1,12 @@
 import tkinter as tk
 import Downloader
-import GUI
+import MainWindow
 
 class DownloadWindow(tk.Toplevel):
     def __init__(self, root, path:str, url:str):
         tk.Toplevel.__init__(self) 
 
-        self['background']=GUI.BG_COLOR
+        self['background']=MainWindow.BG_COLOR
         self.titleLabel =""
         self.ratioLabel = ""
         self.downloader =""
@@ -21,17 +21,15 @@ class DownloadWindow(tk.Toplevel):
         self.wm_transient(root)
 
         
-        self.ratioLabel = tk.Label(self, text="Download : 0.00%", bg=GUI.BG_COLOR, fg=GUI.TEXT_COLOR)
+        self.ratioLabel = tk.Label(self, text="Download : 0.00%", bg=MainWindow.BG_COLOR, fg=MainWindow.TEXT_COLOR)
         self.downloader = Downloader.Downloader()
         self.titleSample = self.generateSampleTitle(self.downloader.getTitle(url), self.downloader.getAuthor(url))
         
-        self.titleLabel = tk.Entry(self, bg=GUI.BG_COLOR, fg=GUI.TEXT_COLOR, borderwidth=0, insertbackground=GUI.TEXT_COLOR, justify='center')
+        self.titleLabel = tk.Entry(self, bg=MainWindow.BG_COLOR, fg=MainWindow.TEXT_COLOR, borderwidth=0, insertbackground=MainWindow.TEXT_COLOR, justify='center')
         self.titleLabel.insert(0, self.titleSample)
         self.titleLabel.place(relx=0.5, rely=0.5, relwidth=0.7,anchor=tk.constants.CENTER)
         self.ratioLabel.place(relx=0.5, rely=0.6, anchor=tk.constants.CENTER)
 
-    def convert(self):
-        self.downloader.convertToMp3(self.path, self.downloader.getFilename(), "m4a")
 
     def generateSampleTitle(self, videoTitle:str, author:str):
         title = videoTitle.replace("(Official Music Video)", "") 
@@ -39,12 +37,13 @@ class DownloadWindow(tk.Toplevel):
         if not (author in title):
             author = author.replace(" - Topic", "")
             title = title + " - " + author
-
-        
         return title
 
+    def generateFileName(self):
+        return self.titleSample + ".mp4"
+
     def download(self, url :str, path :str):
-        self.downloader.ytDownload(url, path, self)
+        self.downloader.ytDownload(url, path, self.generateFileName(), self)
         self.destroy()
 
 

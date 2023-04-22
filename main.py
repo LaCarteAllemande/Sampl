@@ -1,11 +1,11 @@
-import GUI
+import MainWindow
  
 from pydub import AudioSegment
 import ffmpeg
 
 
 def main ():
-    app = GUI.Sampl()
+    app = MainWindow.MainWindow()
     
 
     try:
@@ -14,8 +14,6 @@ def main ():
 
     finally:
         app.run()
-        # audio = AudioSegment.from_file("a.mp3", "mp3")
-        # audio.export("b.mp3", format="mp3")
 
 main()
 
